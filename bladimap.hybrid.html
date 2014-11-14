@@ -1,0 +1,83 @@
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<style>
+#mymap {
+      height: 800px;
+      width : 100%;
+      margin: 0px;
+      padding: 0px
+}
+</style>
+<div id="mymap"></div>
+<script>
+var map;
+function initialize() {
+
+  var mapOptions = {
+    zoom: 5,
+    mapTypeControl: false,
+    mapTypeId: google.maps.MapTypeId.HYBRID,
+    center: new google.maps.LatLng(27.678664, -10.920410)
+  };
+  
+  map = new google.maps.Map(document.getElementById('mymap'),mapOptions);
+
+  var hybrid = { 
+			 
+			4: [
+					{'x' : 7, 'y' : 6, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom4.jpg'}
+				],
+			5: [
+					{'x' : 14, 'y' : 13, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom5.jpg'},
+					{'x' : 15, 'y' : 13, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom5_2.jpg'}
+			   ],
+			6: [
+					{'x' : 29, 'y' : 27, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom6.jpg'},
+					{'x' : 29, 'y' : 26, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom6_2.jpg'},
+					{'x' : 30, 'y' : 26, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom6_3.jpg'},
+			   ],
+			7: [
+					{'x' : 59, 'y' : 54, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom7.jpg'},
+					{'x' : 59, 'y' : 55, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom7_2.jpg'},
+					{'x' : 60, 'y' : 53, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom7_3.jpg'},
+					{'x' : 59, 'y' : 53, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom7_4.jpg'}	
+			  ],
+			8: [
+					{'x' : 118, 'y' : 109, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom8.jpg'},
+					{'x' : 118, 'y' : 110, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom8_2.jpg'},
+					{'x' : 118, 'y' : 107, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom8_3.jpg'},
+					{'x' : 119, 'y' : 107, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom8_4.jpg'},
+					{'x' : 120, 'y' : 107, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom8_5.jpg'},
+					{'x' : 121, 'y' : 107, 'img' : 'http://www.glossarium-labs.com/map/sat/zoom8_6.jpg'}	
+			  ]
+		 };
+
+ var imageMapType = new google.maps.ImageMapType({
+	  
+  getTileUrl: function(coord, zoom) {
+
+      $doIt = false;
+	    $img ='';
+
+  	if (typeof  hybrid[zoom] === 'undefined') { return null; }
+  	
+  	hybrid[zoom].forEach(function(elem) {
+		    if (elem.x == coord.x && elem.y == coord.y ) {   
+			   	 
+			    	$doIt = true; $img = elem.img; 
+			    	return false;
+			}
+		}); 
+  	 
+		if($doIt)	
+			return [$img].join('');
+  },
+  tileSize: new google.maps.Size(256, 256)
+});
+
+map.overlayMapTypes.push(imageMapType); 
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+    
+    
